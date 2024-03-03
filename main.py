@@ -37,18 +37,28 @@ def main():
 
     if "messages" not in st.session_state:
         st.session_state.messages = [
-            SystemMessage(content="You are a helpful assistant to answer questions about Tyler"),
+            SystemMessage(content="Hello, I'm Tyler's Chatbot, Ask me anything about him!"),
         ]
 
     with st.sidebar:
         user_input = st.text_input("Ask away")
 
     if user_input:
-        message(user_input, is_user=True)
+        
         st.session_state.messages.append(HumanMessage(content=user_input))
         with st.spinner:
             response = chat(st.session_state.messages)
-        message(response.content)
+        
+        st.session_state.messages.append(AIMessage(content=response.content))
+
+    messages = st.session_state.get("messages", [])
+    for i, msg in enumerate(messages):
+        if i == 0:
+            pass
+        elif i % 2 == 0:
+            message(msg.content, is_user=True, key= str(i) + "_user")
+        else:
+            message(msg.content, is_user=False, key= str(i) + "_ai")
 
 
 
