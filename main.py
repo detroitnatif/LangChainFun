@@ -29,20 +29,26 @@ def main():
 
     chat = ChatOpenAI()
 
-    messages = [
-        SystemMessage(content="You are a helpful assistant to answer questions about Tyler"),
-        HumanMessage(content=input),
-    ]
-
-
     st.header("TylerGPT")
     
     message("Hello, I'm Tyler's Chatbot, Ask me anything about him!")
     message("What are Tyler's hobbies?", is_user=True)
-    
+
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            SystemMessage(content="You are a helpful assistant to answer questions about Tyler"),
+        ]
 
     with st.sidebar:
         user_input = st.text_input("Ask away")
+
+    if user_input:
+        message(user_input, is_user=True)
+        st.session_state.messages.append(HumanMessage(content=user_input))
+        with st.spinner:
+            response = chat(st.session_state.messages)
+        message(response.content)
 
 
 
