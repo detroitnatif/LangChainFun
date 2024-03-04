@@ -21,7 +21,7 @@ def main():
 
     load_dotenv()
     if os.getenv("OPENAI_API_KEY") is None or os.getenv("OPENAI_API_KEY") == "":
-        st.error("You need to set your OpenAI API key in a .env file")
+        st.error("Please set your OpenAI API key in a .env file")
         return
     else:
         st.write("OpenAI API Key is set")
