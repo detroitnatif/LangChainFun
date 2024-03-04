@@ -31,8 +31,6 @@ def main():
 
     st.header("TylerGPT")
     
-    message("Hello, I'm Tyler's Chatbot, Ask me anything about him!")
-    message("What are Tyler's hobbies?", is_user=True)
 
 
     if "messages" not in st.session_state:
@@ -52,10 +50,9 @@ def main():
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages = st.session_state.get("messages", [])
-    for i, msg in enumerate(messages):
-        if i == 0:
-            pass
-        elif i % 2 == 0:
+    message(messages[0].content, is_user=False, key="0_ai")
+    for i, msg in enumerate(messages[1:]):
+        if i % 2 == 0:
             message(msg.content, is_user=True, key= str(i) + "_user")
         else:
             message(msg.content, is_user=False, key= str(i) + "_ai")
